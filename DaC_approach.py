@@ -3,6 +3,9 @@ Este código está inspirado en la solución Merge Sort encontrada para resolver
 https://www.geeksforgeeks.org/inversion-count-in-Aay-using-merge-sort/
 """
 
+import time
+import matplotlib.pyplot as plt
+
 # Función para contar las inversiones al fusionar
 def countAndMerge(A, l, m, r):
     
@@ -64,7 +67,43 @@ def countInv(A, l, r):
 def inversionCount(A):
     return countInv(A, 0, len(A) - 1)
 
-if __name__ == "__main__":
-    A = [1, 2, 4, 3]
-    print(f"Cantidad de inversiones necesarias: {inversionCount(A)}")
+# Función para leer los aarrays de prueba
+def read_arrays_from_file(filename):
+    arrays = []
+    with open(filename, 'r') as file:
+        for line in file:
+            array = list(map(int, line.strip().split()))
+            arrays.append(array)
+    return arrays
 
+# Función para calcular los tiempos de ejecución de cada arreglo
+def measure_execution_times(arrays):
+    times = []
+    for arr in arrays:
+        start_time = time.perf_counter()
+        inversionCount(arr.copy())  # Usamos una copia para no modificar el original
+        elapsed_time = (time.perf_counter() - start_time) * 1e6
+        print(f"Inversiones de {arr}: {inversionCount(arr.copy())} - Tiempo: {elapsed_time:.2f} µs")
+        times.append(elapsed_time)
+    return times
+
+# Función para graficar los resultados
+def plot_results(arrays, times):
+    plt.figure(figsize=(12, 6))
+    x_labels = [f"Array {i+1}" for i in range(len(arrays))]
+
+    plt.plot(range(len(arrays)), times, marker='o', linestyle='-', color='b', label='Tiempo de ejecución')
+
+    plt.xticks(range(len(arrays)), x_labels, rotation=45, ha='right')  # Rotamos para mejor visibilidad
+    plt.xlabel('Arreglos de prueba')
+    plt.ylabel('Tiempo de ejecución (µs)')
+    plt.title('Tiempo de ejecución por arreglo')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+if __name__ == "__main__":
+    filename = "pruebas.txt"
+    arrays = read_arrays_from_file(filename)
+    times = measure_execution_times(arrays)
+    plot_results(arrays, times)
