@@ -1,6 +1,5 @@
-# Importamos librerías necesarias
-import time  # Para medir el tiempo de ejecución
-import matplotlib.pyplot as plt  # Para graficar los resultados
+import time
+import matplotlib.pyplot as plt
 
 
 # Definimos la clase del árbol de Fenwick (Binary Indexed Tree)
@@ -12,7 +11,6 @@ class FenwickTree:
     def update(self, index, value):
         # Incrementamos el índice porque el árbol usa índices 1-based
         index += 1
-        # Mientras estemos dentro del tamaño del árbol
         while index < len(self.tree):
             # Sumamos el valor a la posición correspondiente
             self.tree[index] += value
@@ -72,9 +70,7 @@ def measure_execution_times(arrays):
         start_time = time.perf_counter()
         # Ejecutamos el algoritmo sobre una copia del arreglo
         inversionCountDP(arr.copy())
-        elapsed_time = (
-            time.perf_counter() - start_time
-        ) * 1e6  # Convertimos a microsegundos
+        elapsed_time = (time.perf_counter() - start_time) * 1e6
         print(
             f"Inversiones de {arr}: {inversionCountDP(arr.copy())} - Tiempo: {elapsed_time:.2f} µs"
         )
@@ -82,12 +78,10 @@ def measure_execution_times(arrays):
     return times
 
 
-# Genera la gráfica de los tiempos de ejecución
 def plot_results(arrays, times):
-    plt.figure(figsize=(12, 6))  # Tamaño de la figura
-    x_labels = [f"Array {i+1}" for i in range(len(arrays))]  # Etiquetas para el eje X
+    plt.figure(figsize=(12, 6))
+    x_labels = [f"Array {i+1}" for i in range(len(arrays))]
 
-    # Dibujamos la línea con los tiempos
     plt.plot(
         range(len(arrays)),
         times,
@@ -97,7 +91,6 @@ def plot_results(arrays, times):
         label="Tiempo de ejecución (DP)",
     )
 
-    # Configuraciones estéticas del gráfico
     plt.xticks(range(len(arrays)), x_labels, rotation=45, ha="right")
     plt.xlabel("Arreglos de prueba")
     plt.ylabel("Tiempo de ejecución (µs)")
@@ -107,7 +100,6 @@ def plot_results(arrays, times):
     plt.show()
 
 
-# Punto de entrada del programa
 if __name__ == "__main__":
     filename = "pruebas.txt"
     arrays = read_arrays_from_file(filename)
