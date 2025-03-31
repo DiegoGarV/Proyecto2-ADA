@@ -79,12 +79,14 @@ def read_arrays_from_file(filename):
 # Función para calcular los tiempos de ejecución de cada arreglo
 def measure_execution_times(arrays):
     times = []
+    n=1
     for arr in arrays:
         start_time = time.perf_counter()
         inversionCount(arr.copy())  # Usamos una copia para no modificar el original
         elapsed_time = (time.perf_counter() - start_time) * 1e6
-        print(f"Inversiones de {arr}: {inversionCount(arr.copy())} - Tiempo: {elapsed_time:.2f} µs")
+        print(f"{n}.) Inversiones de {arr}: {inversionCount(arr.copy())} - Tiempo: {elapsed_time:.2f} µs - Tamaño: {len(arr)}")
         times.append(elapsed_time)
+        n+=1
     return times
 
 # Función para graficar los resultados
